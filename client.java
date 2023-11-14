@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,16 +39,18 @@ class loginframe {
     JLabel keytext, nametext, iptext, Logintext, errormsg;
     JButton connect;
     int onlinemembers;
+    static ImageIcon icon;
 
     loginframe() throws Exception {
         URL iconURL=getClass().getResource("icon.png");
+        icon=new ImageIcon(iconURL);
         framelogin = new JFrame("Login");
         framelogin.setSize(400, 500);
         framelogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         framelogin.setLayout(null);
         framelogin.setBackground(Color.gray);
         framelogin.setResizable(false);
-        framelogin.setIconImage(new ImageIcon(iconURL).getImage());
+        framelogin.setIconImage(icon.getImage());
         
 
         JLabel icon = new JLabel(new ImageIcon("icon.png"));
@@ -142,6 +143,7 @@ class loginframe {
         } catch (Exception e) {
             errormsg.setVisible(true);
             errormsg.setText(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
@@ -249,8 +251,6 @@ class chatframe extends Thread {
         topPanel.add(onlinemember, BorderLayout.EAST);
         topPanel.add(typingstatus, BorderLayout.SOUTH);
 
-        URL iconURL=getClass().getResource("icon.png");
-        framechat.setIconImage(new ImageIcon(iconURL).getImage());
         framechat = new JFrame("Group Chat : " + username);
         framechat.setSize(500, 400);
         framechat.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -288,7 +288,6 @@ class inputfromserver extends Thread {
                 if (servermsg.endsWith("is typing") && servermsg.contains("=====server=====")) {
                     servermsg = servermsg.replaceAll("=====server=====", "");
                     chatframe.typingstatus.setText(servermsg);
-                    // servermsg="null";
                     continue;
                 }
                 if (servermsg.contains("=====server=====")) {
